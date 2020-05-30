@@ -206,4 +206,10 @@ self: super:
   syb = dontCheck super.syb;
   # https://github.com/ghcjs/ghcjs/issues/677
   hspec-core = dontCheck super.hspec-core;
+
+  # Custom docs don't build with ghcjs
+  # https://github.com/reflex-frp/reflex-platform/issues/631
+  servant = overrideCabal super.servant (drv: {
+    postInstall = "";
+  });
 }
