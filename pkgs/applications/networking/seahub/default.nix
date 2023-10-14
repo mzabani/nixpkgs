@@ -1,43 +1,22 @@
 { lib
 , fetchFromGitHub
-, fetchpatch
 , python3
 , makeWrapper
 , nixosTests
 }:
-let
-  # Seahub 8.x.x does not support django-webpack-loader >=1.x.x
-  python = python3.override {
-    packageOverrides = self: super: {
-      django-webpack-loader = super.django-webpack-loader.overridePythonAttrs (old: rec {
-        version = "0.7.0";
-        src = old.src.override {
-          inherit version;
-          hash = "sha256-ejyIIBqlRIH5OZRlYVy+e5rs6AgUlqbQKHt8uOIy9Ec=";
-        };
-      });
-    };
-  };
-in
-python.pkgs.buildPythonApplication rec {
+ let python = python3;
+ in
+ python.pkgs.buildPythonApplication rec {
   pname = "seahub";
-  version = "9.0.10";
+  version = "11.0.1-pro";
   pyproject = false;
 
   src = fetchFromGitHub {
     owner = "haiwen";
     repo = "seahub";
-    rev = "5971bf25fe67d94ec4d9f53b785c15a098113620"; # using a fixed revision because upstream may re-tag releases :/
-    sha256 = "sha256-7Exvm3EShb/1EqwA4wzWB9zCdv0P/ISmjKSoqtOMnqk=";
+    rev = "cf40c5a3f42352ea11ac16282a06111cacb63e93"; # using a fixed revision because upstream may re-tag releases :/
+    sha256 = "sha256-dxMvbiAdECMZIf+HgA5P2gZYI9l+k+nhmdzfg90037A=";
   };
-
-  patches = [
-    (fetchpatch {
-      # PIL update fix
-      url = "https://patch-diff.githubusercontent.com/raw/haiwen/seahub/pull/5570.patch";
-      sha256 = "sha256-7V2aRlacJ7Qhdi9k4Bs+t/Emx+EAM/NNCI+K40bMwLA=";
-    })
-  ];
 
   dontBuild = true;
 
