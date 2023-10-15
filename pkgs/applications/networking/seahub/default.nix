@@ -5,7 +5,7 @@
 , nixosTests
 }:
  let python = python3;
- in
+in
  python.pkgs.buildPythonApplication rec {
   pname = "seahub";
   version = "11.0.1-pro";
@@ -35,6 +35,7 @@
     django-simple-captcha
     django-picklefield
     django-formtools
+    djangosaml2
     mysqlclient
     pillow
     python-dateutil
@@ -45,6 +46,8 @@
     chardet
     pyjwt
     pycryptodome
+    python-ldap
+    pyopenssl
     qrcode
     pysearpc
     seaserv
